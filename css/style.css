@@ -1,0 +1,42 @@
+body {
+    background-color: rgb(223, 207, 187);
+}
+nav{
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
+nav ul {
+    align-items: center;
+}
+.logoNav{
+    height: 70px;
+    width: auto;
+    align-items: center;
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+    color: red;
+    padding-top: 10px;
+
+}
+
+.card {
+    height: 500px;
+    width: 300px;
+    margin: 15px;
+    border-color: rosybrown;
+    border-style: dotted;
+}
+.card img{
+    height: 300px;
+    width: auto;
+    margin: 10px;
+}
+
+.card button {
+    color: rgb(136, 36, 89);
+    border-style: none;
+}
