@@ -2,7 +2,8 @@ let productos = []
 const carrito = [];
 
 const tarjetas = document.getElementById("productCards");
-const botonAgregar = document.getElementById("agregar")
+const botonAgregar = document.getElementById("agregar");
+
 
 function recuperarItemsStorage() {
   productos = JSON.parse(localStorage.getItem("productos")) || [];
@@ -32,10 +33,18 @@ document.addEventListener("DOMContentLoaded", () => {
   productos.forEach((x, index) => {
     const botonAgregar = document.getElementById(`agregar${index}`);
     botonAgregar.addEventListener("click", () => {
-      agregarAlCarrito(productos[index]);
-    });
+        agregarAlCarrito(productos[index]);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Se ha agregado un producto al carrito',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      });
   });
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   recuperarItemsStorage();
@@ -55,6 +64,8 @@ function agregarAlCarrito(producto) {
 
   actualizarTabla();
 }
+
+
 
 function actualizarTabla() {
   const itemsTable = document.getElementById("items");
@@ -81,10 +92,53 @@ function actualizarTabla() {
   totalElement.textContent = `$${total.toFixed(2)}`;
  }
 
- const vaciarCarritoBtn = document.getElementById("vaciarCarrito");
+
+ function vaciarCarrito() {
+    carrito.length = 0; // Vacía el arreglo del carrito
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    actualizarTabla();
+  }
+  
+  const vaciarCarritoBtn = document.getElementById("vaciarCarrito");
+  
+  vaciarCarritoBtn.addEventListener("click", () => {
+    vaciarCarrito();
+  });
+  
+  function actualizarTabla() {
+    const itemsTable = document.getElementById("items");
+    itemsTable.innerHTML = ""; // Borra todos los elementos de la tabla
+  
+    let total = 0;
+  
+    carrito.forEach((item) => {
+      const { producto, cantidad } = item;
+      const subtotal = producto.precio * cantidad;
+      total += subtotal;
+  
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${producto.nombre}</td>
+        <td>$${producto.precio.toFixed(2)}</td>
+        <td>${cantidad}</td>
+        <td>$${subtotal.toFixed(2)}</td>
+      `;
+      itemsTable.appendChild(row);
+    });
+  
+    const totalElement = document.getElementById("total");
+    totalElement.textContent = `$${total.toFixed(2)}`;
+  }
+  
+
 
 vaciarCarritoBtn.addEventListener("click", () => {
   carrito.length = 0; 
+  Swal.fire(
+    'Se vaciara el carrito',
+    'Seguro que desea vaciar el carrito?',
+    'warning'
+  )
 
   actualizarTabla();
   localStorage.setItem('carrito', JSON.stringify(carrito));
