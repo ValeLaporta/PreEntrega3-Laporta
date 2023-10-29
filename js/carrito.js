@@ -100,7 +100,16 @@ function actualizarTabla() {
   }
   
   const vaciarCarritoBtn = document.getElementById("vaciarCarrito");
-  
+  const pagarBtn = document.getElementById("pagar");
+
+  pagarBtn.addEventListener("click", () => {
+    Swal.fire(
+        'Desea finalizar su compra?',
+        'Continuar al pago',
+        'success'
+      );
+      
+  });
   vaciarCarritoBtn.addEventListener("click", () => {
     vaciarCarrito();
   });
@@ -139,7 +148,7 @@ vaciarCarritoBtn.addEventListener("click", () => {
     'Seguro que desea vaciar el carrito?',
     'warning'
   )
-
+  
   actualizarTabla();
   localStorage.setItem('carrito', JSON.stringify(carrito));
 });
